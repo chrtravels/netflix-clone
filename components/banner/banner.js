@@ -1,4 +1,5 @@
 import styles from './banner.module.css';
+import Image from 'next/image';
 
 const Banner = (props) => {
   // props being passed from index to Banner
@@ -23,6 +24,12 @@ const Banner = (props) => {
             <button
             className={styles.btnWithIcon}
             onClick={handleOnPlay}>
+            <Image
+            alt="play icon"
+            src="/static/icons/play_arrow.svg"
+            width="32px"
+            height="32px"
+            />
             <span className={styles.playText}>Play</span>
             </button>
           </div>
