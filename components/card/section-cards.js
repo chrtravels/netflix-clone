@@ -12,6 +12,30 @@ const SectionCards = (props) => {
         imgUrl='/static/clifford.webp'
         size="large"
       />
+      <Card
+        imgUrl='/static/clifford.webp'
+        size="large"
+      />
+      <Card
+        imgUrl='/static/clifford.webp'
+        size="large"
+      />
+      <Card
+        imgUrl='/static/clifford.webp'
+        size="large"
+      />
+      <Card
+        imgUrl='/static/clifford.webp'
+        size="large"
+      />
+      <Card
+        imgUrl='/static/clifford.webp'
+        size="large"
+      />
+      <Card
+        imgUrl='/static/clifford.webp'
+        size="large"
+      />
       </div>
     </section>
   )
