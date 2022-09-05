@@ -9,6 +9,7 @@ const SectionCards = (props) => {
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.cardWrapper}>
       <Card
+        id={0}
         imgUrl='/static/clifford.webp'
         size="large"
       />
