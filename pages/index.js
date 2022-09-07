@@ -10,14 +10,17 @@ import { getVideos } from '../lib/videos';
 console.log({getVideos})
 
 export async function getServerSideProps() {
-  const disneyVideos = await getVideos();
+  const disneyVideos = await getVideos("disney trailer");
+  const travelVideos = await getVideos("travel");
+  const eightiesCartoons = await getVideos("80's cartoons");
+  const popularVideos = await getVideos("popular");
 
   // Pass data to the page via props
-  return { props: { disneyVideos } }
+  return { props: { disneyVideos, travelVideos, eightiesCartoons, popularVideos } }
 }
 
-export default function Home({ disneyVideos }) {
-  console.log({disneyVideos});
+export default function Home({ disneyVideos, travelVideos, eightiesCartoons, popularVideos }) {
+
   return (
     <div className={styles.container}>
       <Head>
@@ -35,7 +38,9 @@ export default function Home({ disneyVideos }) {
 
       <div className={styles.sectionWrapper}>
         <SectionCards title="Disney" videos={disneyVideos} size="large"/>
-        <SectionCards title="Disney" videos={disneyVideos} size="medium" />
+        <SectionCards title="Travel" videos={travelVideos} size="small" />
+        <SectionCards title="80's Cartoons" videos={eightiesCartoons} size="medium" />
+        <SectionCards title="Popular" videos={popularVideos} size="small" />
       </div>
 
     </div>
