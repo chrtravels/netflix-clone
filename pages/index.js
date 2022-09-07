@@ -10,11 +10,8 @@ import { getVideos } from '../lib/videos';
 console.log({getVideos})
 
 export async function getServerSideProps() {
-  const disneyVideos = getVideos();
-  // Fetch data from external API
-  const res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=surfing&key=[YOUR_API_KEY] HTTP/1.1`)
-  const data = await res.json()
-  console.log({data});
+  const disneyVideos = await getVideos();
+
   // Pass data to the page via props
   return { props: { disneyVideos } }
 }
