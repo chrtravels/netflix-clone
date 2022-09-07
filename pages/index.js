@@ -7,10 +7,20 @@ import NavBar from '../components/nav/navbar';
 import SectionCards from '../components/card/section-cards';
 import { getVideos } from '../lib/videos';
 
-export default function Home() {
+console.log({getVideos})
 
-const disneyVideos= getVideos();
+export async function getServerSideProps() {
+  const disneyVideos = getVideos();
+  // Fetch data from external API
+  const res = await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=surfing&key=[YOUR_API_KEY] HTTP/1.1`)
+  const data = await res.json()
+  console.log({data});
+  // Pass data to the page via props
+  return { props: { disneyVideos } }
+}
 
+export default function Home({ disneyVideos }) {
+  console.log({disneyVideos});
   return (
     <div className={styles.container}>
       <Head>
