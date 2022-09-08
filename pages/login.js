@@ -12,11 +12,11 @@ const Login = () => {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       <Head>
         <title>Netflix SignIn</title>
       </Head>
-      <header>
+      <header className={styles.header}>
         <div className={styles.headerWrapper}>
           <Link className={styles.logoLink} href="/">
             <a>
@@ -33,16 +33,20 @@ const Login = () => {
         </div>
       </header>
 
-      <div className={styles.mainWrapper}>
-        <main className={styles.main}>
-          <h1 className={styles.inputHeader}>Sign In</h1>
-          <input type="text" placeholder="Email Address" className={styles.emailInput} />
-
+      <main className={styles.main}>
+        <div className={styles.mainWrapper}>
+          <h1 className={styles.signinHeader}>Sign In</h1>
+          <input
+            type="text"
+            placeholder="Email address"
+            className={styles.emailInput}
+          />
           <p className={styles.userMsg}></p>
-
-          <button onClick={handleLoginWithEmail} className={styles.loginBtn}>Sign In</button>
-        </main>
-      </div>
+          <button onClick={handleLoginWithEmail} className={styles.loginBtn}>
+            Sign In
+          </button>
+        </div>
+      </main>
     </div>
 
   )
