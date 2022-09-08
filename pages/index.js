@@ -5,7 +5,7 @@ import Banner from '../components/banner/banner';
 import NavBar from '../components/nav/navbar';
 
 import SectionCards from '../components/card/section-cards';
-import { getVideos } from '../lib/videos';
+import { getVideos, getPopularVideos } from '../lib/videos';
 
 console.log({getVideos})
 
@@ -13,7 +13,7 @@ export async function getServerSideProps() {
   const disneyVideos = await getVideos("disney trailer");
   const travelVideos = await getVideos("travel");
   const eightiesCartoons = await getVideos("80's cartoons");
-  const popularVideos = await getVideos("popular");
+  const popularVideos = await getPopularVideos("popular");
 
   // Pass data to the page via props
   return { props: { disneyVideos, travelVideos, eightiesCartoons, popularVideos } }
@@ -29,18 +29,20 @@ export default function Home({ disneyVideos, travelVideos, eightiesCartoons, pop
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NavBar username="Chris" />
-      <Banner
-      title="Clifford the red dog"
-      subTitle="a very cute dog"
-      imgUrl="/static/clifford.webp"
-      />
+      <div className={styles.main}>
+        <NavBar username="Chris" />
+        <Banner
+        title="Clifford the red dog"
+        subTitle="a very cute dog"
+        imgUrl="/static/clifford.webp"
+        />
 
-      <div className={styles.sectionWrapper}>
-        <SectionCards title="Disney" videos={disneyVideos} size="large"/>
-        <SectionCards title="Travel" videos={travelVideos} size="small" />
-        <SectionCards title="80's Cartoons" videos={eightiesCartoons} size="medium" />
-        <SectionCards title="Popular" videos={popularVideos} size="small" />
+        <div className={styles.sectionWrapper}>
+          <SectionCards title="Disney" videos={disneyVideos} size="large"/>
+          <SectionCards title="Travel" videos={travelVideos} size="small" />
+          <SectionCards title="80's Cartoons" videos={eightiesCartoons} size="medium" />
+          <SectionCards title="Popular" videos={popularVideos} size="small" />
+        </div>
       </div>
 
     </div>
