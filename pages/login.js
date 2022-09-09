@@ -30,10 +30,12 @@ const Login = () => {
         try {
           const didToken = await magic.auth.loginWithMagicLink({ email, });
           console.log({ didToken });
+          if (didToken) {
+            router.push('/')
+          }
         } catch (error) {
           console.error('Something with wrong with logging in', error);
         }
-        // router.push('/');
       } else {
         setUserMsg('Something went wrong logging in')
       }
