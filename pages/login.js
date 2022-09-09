@@ -11,6 +11,7 @@ import styles from "../styles/login.module.css"
 const Login = () => {
   const [email, setEmail] = useState('');
   const [userMsg, setUserMsg] = useState('')
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
 
@@ -21,25 +22,29 @@ const Login = () => {
   }
 
   const handleLoginWithEmail = async (e) => {
-    console.log('login button')
     e.preventDefault();
 
     if (email) {
       if (email === 'chrtravels@gmail.com') {
         // log in a user by their email
         try {
+          setIsLoading(true);
           const didToken = await magic.auth.loginWithMagicLink({ email, });
-          console.log({ didToken });
+
           if (didToken) {
+            setIsLoading(false);
             router.push('/')
           }
         } catch (error) {
           console.error('Something with wrong with logging in', error);
+          setIsLoading(false);
         }
       } else {
+        setIsLoading(false);
         setUserMsg('Something went wrong logging in')
       }
     } else {
+      setIsLoading(false);
       setUserMsg('Enter a valid email address');
     }
 
@@ -78,7 +83,7 @@ const Login = () => {
           />
           <p className={styles.userMsg}>{userMsg}</p>
           <button onClick={handleLoginWithEmail} className={styles.loginBtn}>
-            Sign In
+            {isLoading ? 'Loading...' : 'Sign In'}
           </button>
         </div>
       </main>
