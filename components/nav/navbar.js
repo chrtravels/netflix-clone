@@ -3,14 +3,30 @@ import Image from 'next/image';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const NavBar = (props) => {
-  const { username } = props;
+import { magic } from '../../lib/magic-client';
+
+const NavBar = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
+  const [username, setUsername] = useState('');
 
   const router = useRouter();
+
+  useEffect(() => {
+    async function getUsername() {
+      try {
+        const { email } = await magic.user.getMetadata();
+        if (email) {
+          setUsername(email);
+        }
+      } catch (error) {
+        console.error('Error retrieving email', error)
+      }
+    }
+    getUsername();
+  }, []);
 
   const handleOnClickHome = (e) => {
     e.preventDefault()
