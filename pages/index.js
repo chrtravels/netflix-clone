@@ -7,15 +7,12 @@ import NavBar from '../components/nav/navbar';
 import SectionCards from '../components/card/section-cards';
 import { getVideos, getPopularVideos } from '../lib/videos';
 
-import { magic } from '../lib/magic-client';
-
 export async function getServerSideProps() {
   const disneyVideos = await getVideos("disney trailer");
   const travelVideos = await getVideos("travel");
   const eightiesCartoons = await getVideos("80's cartoons");
   const popularVideos = await getPopularVideos("popular");
 
-  console.log({ magic })
   // Pass data to the page via props
   return { props: { disneyVideos, travelVideos, eightiesCartoons, popularVideos } }
 }
@@ -33,6 +30,7 @@ export default function Home({ disneyVideos, travelVideos, eightiesCartoons, pop
       <div className={styles.main}>
         <NavBar username="Chris" />
         <Banner
+        videoId="4zH5iYM4wJo"
         title="Clifford the red dog"
         subTitle="a very cute dog"
         imgUrl="/static/clifford.webp"
