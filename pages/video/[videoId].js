@@ -8,18 +8,25 @@ Modal.setAppElement('#__next');
 
 const Video = () => {
   const router = useRouter()
-  console.log(router);
 
   return (
-    <div>Video Page {router.query.videoId}
-        <Modal
-        isOpen={true}
-        contentLabel="Watch the video"
-        onRequestClose={() => router.back()}
-        overlayClassName={styles.overlay}
-        >
-        <div>Modal body</div>
-        </Modal>
+    <div className={styles.container}>
+      <Modal
+      isOpen={true}
+      contentLabel="Watch the video"
+      onRequestClose={() => router.back()}
+      className={styles.modal}
+      overlayClassName={styles.overlay}
+      >
+        <iframe
+        id="ytplayer"
+        type="text/html"
+        width="640"
+        height="360"
+        src={`https://www.youtube.com/embed/${router.query.videoId}?autoplay=0&origin=http://example.com&controls=0&rel=0`}
+        frameborder="0"
+        ></iframe>
+      </Modal>
     </div>
   );
 };
