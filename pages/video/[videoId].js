@@ -48,14 +48,14 @@ const Video = () => {
               <p className={styles.description}>{description}</p>
             </div>
             <div className={styles.col2}>
-            <p className={clsx(styles.subtext, styles.subtextWrapper)}>
-              <span className={textColor}>Cast: </span>
+            <p className={clsx(styles.subText, styles.subTextWrapper)}>
+              <span className={styles.textColor}>Cast: </span>
               <span className={styles.channelTitle}>
               {channelTitle}
               </span>
             </p>
-            <p className={clsx(styles.subtext, styles.subtextWrapper)}>
-              <span className={textColor}>View Count: </span>
+            <p className={clsx(styles.subText, styles.subTextWrapper)}>
+              <span className={styles.textColor}>View Count: </span>
               <span className={styles.channelTitle}>
               {viewCount}
               </span>
