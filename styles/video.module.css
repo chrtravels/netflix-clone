@@ -54,7 +54,7 @@
 }
 
 .col1 {
-  max-height: 23rem /* 208px */;
+  max-height: 50vh /* 208px */;
   overflow-y: hidden;
   overflow-y: scroll;
 }
@@ -105,8 +105,10 @@
   margin: 0px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1024px) {
   .modal {
-    width: 100%;
+    top: 10%;
+    bottom: 40%;
+    width: 50%;
   }
 }
