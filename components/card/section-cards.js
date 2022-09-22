@@ -11,7 +11,7 @@ const SectionCards = (props) => {
       <h2 className={styles.title}>{title}</h2>
       <div className={styles.cardWrapper}>
         {videos.map((video, i) => {
-          console.log('video id', video.id);
+          {/* console.log('video id', video.id); */}
           return (
             <Link href={`/video/${video.id}`}>
               <a>
