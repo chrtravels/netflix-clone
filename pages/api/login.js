@@ -1,6 +1,6 @@
 import { magicAdmin } from "../../lib/magic";
 import jwt from "jsonwebtoken";
-import { queryHasuraGQL } from "../../lib/db/hasura";
+import { isNewUser } from "../../lib/db/hasura";
 
 export default async function login (req, res) {
   if (req.method === "POST") {
@@ -10,7 +10,6 @@ export default async function login (req, res) {
       // Invote magic
       const metadata = await magicAdmin.users.getMetadataByToken(didToken)
       console.log({ metadata });
-      console.log({ queryHasuraGQL })
 
       // Create JWT
       const token = jwt.sign(
@@ -23,12 +22,13 @@ export default async function login (req, res) {
             "x-hasura-default-role": "user",
             "x-hasura-user-id": `${metadata.issuer}`,
           },
-      },
-      "thisisasecretthisisasupersecret2367",
+        },
+        "thisisasecretthisisasupersecret2367",
       );
       console.log({ token });
 
-      res.send({ done: true });
+      const isNewUserQuery = await isNewUser(token);
+      res.send({ done: true, isNewUserQuery });
     } catch(error) {
       console.error("There was an error logging in", error);
       res.status(500).send({ done: false });
