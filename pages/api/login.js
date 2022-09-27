@@ -6,9 +6,10 @@ export default async function login (req, res) {
   if (req.method === "POST") {
     try {
       const auth = req.headers.authorization;
-      const didToken = auth.substring(7);
-      // Invote magic
-      const metadata = await magicAdmin.users.getMetadataByToken(didToken)
+      const didToken = auth ? auth.substring(7) : "";
+
+      // Invoke magic
+      const metadata = await magicAdmin.users.getMetadataByToken(didToken);
       console.log({ metadata });
 
       // Create JWT
@@ -23,11 +24,12 @@ export default async function login (req, res) {
             "x-hasura-user-id": `${metadata.issuer}`,
           },
         },
-        "thisisasecretthisisasupersecret2367",
+        process.env.JWT_SECRET
       );
       console.log({ token });
 
       const isNewUserQuery = await isNewUser(token);
+
       res.send({ done: true, isNewUserQuery });
     } catch(error) {
       console.error("There was an error logging in", error);
