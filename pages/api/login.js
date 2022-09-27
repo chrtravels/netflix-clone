@@ -28,20 +28,9 @@ export default async function login (req, res) {
       );
 
       const isNewUserQuery = await isNewUser(token, metadata.issuer);
-
-      if (isNewUserQuery) {
-        const createNewUserMutation = await createNewUser(token, metadata);
-        console.log({ createNewUserMutation });
-        // Set the cookie
-        const cookie = setTokenCookie(token, res);
-        console.log({ cookie });
-        return res.send({ done: true, msg: "This is a new user" });
-      } else {
-        // set the cookie
-        const cookie = setTokenCookie(token, res);
-        console.log({ cookie });
-        return res.send({ done: true, msg: "Not a new user" });
-      }
+      isNewUserQuery && await createNewUser(token, metadata);
+      setTokenCookie(token, res);
+      res.send({ done: true });
     } catch(error) {
       console.error("There was an error logging in", error);
       res.status(500).send({ done: false });
