@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Modal from 'react-modal';
 
 import styles from '../../styles/Video.module.css';
@@ -40,7 +41,33 @@ export async function getStaticPaths() {
 const Video = ({ video }) => {
   const router = useRouter()
 
+  const [toggleLike, setToggleLike] = useState(false);
+  const [toggleDislike, setToggleDislike] = useState(false);
+
   const {title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 }} = video;
+
+  // Like - Dislike functions
+  const checkToggle = (toggle, setToggle) => {
+    toggle ? setToggle(false) : setToggle(true);
+  }
+
+  const handleToggleLike = () => {
+    if (toggleDislike) {
+      setToggleDislike(false)
+      checkToggle(toggleLike, setToggleLike);
+    } else {
+      checkToggle(toggleLike, setToggleLike);
+    }
+  }
+
+  const handleToggleDislike = () => {
+    if (toggleLike) {
+      setToggleLike(false);
+      checkToggle(toggleDislike, setToggleDislike);
+    } else {
+      checkToggle(toggleDislike, setToggleDislike);
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -64,15 +91,15 @@ const Video = ({ video }) => {
 
         <div className={styles.likeDislikeBtnWrapper}>
           <div className={styles.likeBtnWrapper}>
-            <button>
+            <button onClick={handleToggleLike}>
               <div className={styles.btnWrapper}>
-                <Like />
+                <Like selected={toggleLike} />
               </div>
             </button>
           </div>
-          <button>
+          <button onClick={handleToggleDislike}>
             <div className={styles.btnWrapper}>
-              <DisLike />
+              <DisLike selected={toggleDislike} />
             </div>
           </button>
         </div>
