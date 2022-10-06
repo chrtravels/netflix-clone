@@ -40,6 +40,7 @@ export async function getStaticPaths() {
 
 const Video = ({ video }) => {
   const router = useRouter()
+  const videoId = router.query.videoId;
 
   const [toggleLike, setToggleLike] = useState(false);
   const [toggleDislike, setToggleDislike] = useState(false);
@@ -50,23 +51,45 @@ const Video = ({ video }) => {
   const checkToggle = (toggle, setToggle) => {
     toggle ? setToggle(false) : setToggle(true);
   }
+// toggleLike ? 0 : 1
+  const runRatingService = async (favorited) => {
+    return await fetch('/api/stats', {
+      method: 'POST',
+      body: JSON.stringify({
+        videoId,
+        favorited,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  }
+  // Checks if liked or disliked
 
-  const handleToggleLike = () => {
+  const handleToggleLike = async () => {
+
     if (toggleDislike) {
       setToggleDislike(false)
       checkToggle(toggleLike, setToggleLike);
     } else {
       checkToggle(toggleLike, setToggleLike);
     }
+    const favorited = toggleLike ? 0 : 1;
+    const response = await runRatingService(favorited);
+    console.log('data', await response.json());
   }
 
-  const handleToggleDislike = () => {
+  const handleToggleDislike = async () => {
     if (toggleLike) {
       setToggleLike(false);
       checkToggle(toggleDislike, setToggleDislike);
     } else {
       checkToggle(toggleDislike, setToggleDislike);
     }
+
+    const favorited = toggleLike ? 1 : 0;
+    const response = await runRatingService(favorited);
+    console.log('data', await response.json());
   }
 
   return (
@@ -85,7 +108,7 @@ const Video = ({ video }) => {
         type="text/html"
         width="100%"
         height="360"
-        src={`https://www.youtube.com/embed/${router.query.videoId}?autoplay=0&origin=http://example.com&controls=0&rel=0`}
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=0&origin=http://example.com&controls=0&rel=0`}
         frameborder="0"
         ></iframe>
 

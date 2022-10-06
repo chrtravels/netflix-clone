@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { findVideoIdByUser, insertStats, updateStats } from '../../lib/db/hasura';
 
-export default async function stats(req, res) {
+export default async function stats(req, res,) {
   if (req.method === "POST") {
 
     try {
