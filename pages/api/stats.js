@@ -17,9 +17,9 @@ export default async function stats(req, res) {
 
         const doesStatsExist = await findVideoIdByUser(token, userId, videoId);
         console.log(doesStatsExist.data.stats)
-        if (doesStatsExist) {
+        if (doesStatsExist.data.stats.length !== 0) {
           // update it
-          const response = await updateStats(token, { userId, videoId: "CaimKeDcudo", favorited: + 1, watched: true })
+          const response = await updateStats(token, { userId, videoId: "CaimKeDcudo", favorited: 0, watched: true })
           res.send({ msg: "it works", updateStats: response });
         } else {
           // add it
