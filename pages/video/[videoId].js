@@ -41,7 +41,7 @@ export async function getStaticPaths() {
 const Video = ({ video }) => {
   const router = useRouter()
   const videoId = router.query.videoId;
-  console.log({videoId})
+
   const [toggleLike, setToggleLike] = useState(false);
   const [toggleDislike, setToggleDislike] = useState(false);
 
@@ -87,7 +87,7 @@ const Video = ({ video }) => {
       checkToggle(toggleDislike, setToggleDislike);
     }
 
-    const favorited = toggleLike ? 1 : 0;
+    const favorited = toggleDislike ? 1 : 0;
     const response = await runRatingService(favorited);
     console.log('data', await response.json());
   }
