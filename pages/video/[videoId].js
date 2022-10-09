@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from 'react-modal';
 
 import styles from '../../styles/Video.module.css';
@@ -17,7 +17,7 @@ Modal.setAppElement('#__next');
 export async function getStaticProps(context) {
   const videoId = context.params.videoId;
   const videoArray = await getYoutubeVideoById(videoId);
-
+  console.log({context})
   return {
     props: {
       video: videoArray.length > 0 ? videoArray[0] : {}
@@ -29,7 +29,6 @@ export async function getStaticProps(context) {
 // Static generation for Banner component
 export async function getStaticPaths() {
   const listOfVideos = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
-
   // Get the paths we want to pre-render based on posts
   const paths = listOfVideos.map((videoId) => ({
     params: { videoId },
@@ -47,11 +46,30 @@ const Video = ({ video }) => {
 
   const {title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 }} = video;
 
+  useEffect(() => {
+    const handleDislikeService = async () => {
+      const response = await fetch(`/api/stats?videoId=${videoId}`, {
+        method: 'GET',
+      });
+      const data = await response.json();
+
+      if (data.length > 0) {
+        const favorited = data[0].favorited;
+        console.log({favorited})
+        if (favorited === 1) {
+          setToggleLike(true);
+        } else if (favorited === 0) {
+          setToggleDislike(true);
+        }
+      }
+    }
+    handleDislikeService();
+  }, [videoId]);
+
   // Like - Dislike functions
   const checkToggle = (toggle, setToggle) => {
     toggle ? setToggle(false) : setToggle(true);
   }
-// toggleLike ? 0 : 1
   const runRatingService = async (favorited) => {
     return await fetch('/api/stats', {
       method: 'POST',
