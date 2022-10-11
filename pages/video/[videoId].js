@@ -45,7 +45,7 @@ const Video = ({ video }) => {
   const [toggleDislike, setToggleDislike] = useState(false);
 
   const {title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 }} = video;
-
+  console.log({video});
   useEffect(() => {
     const handleDislikeService = async () => {
       const response = await fetch(`/api/stats?videoId=${videoId}`, {
@@ -55,7 +55,7 @@ const Video = ({ video }) => {
 
       if (data.length > 0) {
         const favorited = data[0].favorited;
-        console.log({favorited})
+
         if (favorited === 1) {
           setToggleLike(true);
         } else if (favorited === 0) {
