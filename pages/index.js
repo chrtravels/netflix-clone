@@ -6,21 +6,10 @@ import NavBar from '../components/nav/navbar';
 
 import SectionCards from '../components/card/section-cards';
 import { getVideos, getPopularVideos, getWatchItAgainVideos } from '../lib/videos';
-import { verifyToken } from '../lib/utils';
+import useRedirectUser from '../utils/redirectUser';
 
 export async function getServerSideProps(context) {
-  const token = context.req ? context.req?.cookies.token : null;
-  const userId = await verifyToken(token);
-
-  if (!userId) {
-    return {
-      props: {},
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    }
-  }
+  const { userId, token } = await useRedirectUser(context);
 
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token)
 
