@@ -6,10 +6,22 @@ import NavBar from '../components/nav/navbar';
 
 import SectionCards from '../components/card/section-cards';
 import { getVideos, getPopularVideos, getWatchItAgainVideos } from '../lib/videos';
+import { verifyToken } from '../lib/utils';
 
 export async function getServerSideProps(context) {
   const token = context.req ? context.req?.cookies.token : null;
-  const userId = "did:ethr:0x5B6a10E4c456d2E6696E9eD4183efA433732a853";
+  const userId = await verifyToken(token);
+
+  if (!userId) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token)
 
   const disneyVideos = await getVideos("disney trailer");
@@ -21,7 +33,7 @@ export async function getServerSideProps(context) {
   return { props: { disneyVideos, travelVideos, eightiesCartoons, popularVideos, watchItAgainVideos } }
 }
 
-export default function Home({ disneyVideos, travelVideos, eightiesCartoons, popularVideos, watchItAgainVideos }) {
+export default function Home({ disneyVideos, travelVideos, eightiesCartoons, popularVideos, watchItAgainVideos = [] }) {
 
   return (
     <div className={styles.container}>
