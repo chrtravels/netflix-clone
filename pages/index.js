@@ -7,8 +7,8 @@ import NavBar from '../components/nav/navbar';
 import SectionCards from '../components/card/section-cards';
 import { getVideos, getPopularVideos, getWatchItAgainVideos } from '../lib/videos';
 
-export async function getServerSideProps() {
-  const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJkaWQ6ZXRocjoweDVCNmExMEU0YzQ1NmQyRTY2OTZFOWVENDE4M2VmQTQzMzczMmE4NTMiLCJwdWJsaWNBZGRyZXNzIjoiMHg1QjZhMTBFNGM0NTZkMkU2Njk2RTllRDQxODNlZkE0MzM3MzJhODUzIiwiZW1haWwiOiJjaHJ0cmF2ZWxzQGdtYWlsLmNvbSIsIm9hdXRoUHJvdmlkZXIiOm51bGwsInBob25lTnVtYmVyIjpudWxsLCJpYXQiOjE2NjUxMTM2MjAsImV4cCI6MTY2NTcxODQyMCwiaHR0cHM6Ly9oYXN1cmEuaW8vand0L2NsYWltcyI6eyJ4LWhhc3VyYS1hbGxvd2VkLXJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJ4LWhhc3VyYS1kZWZhdWx0LXJvbGUiOiJ1c2VyIiwieC1oYXN1cmEtdXNlci1pZCI6ImRpZDpldGhyOjB4NUI2YTEwRTRjNDU2ZDJFNjY5NkU5ZUQ0MTgzZWZBNDMzNzMyYTg1MyJ9fQ.n3lCLHRDN1RB9Hu_OkjkN5vImIb6HRtKOAZpOA7InUw";
+export async function getServerSideProps(context) {
+  const token = context.req ? context.req?.cookies.token : null;
   const userId = "did:ethr:0x5B6a10E4c456d2E6696E9eD4183efA433732a853";
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token)
 
