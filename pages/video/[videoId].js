@@ -45,7 +45,7 @@ const Video = ({ video }) => {
   const [toggleDislike, setToggleDislike] = useState(false);
 
   const {title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 }} = video;
-  console.log({video});
+
   useEffect(() => {
     const handleDislikeService = async () => {
       const response = await fetch(`/api/stats?videoId=${videoId}`, {
@@ -92,7 +92,7 @@ const Video = ({ video }) => {
     } else {
       checkToggle(toggleLike, setToggleLike);
     }
-    const favorited = toggleLike ? 0 : 1;
+    const favorited = await toggleLike ? 0 : 1;
     const response = await runRatingService(favorited);
     console.log('data', await response.json());
   }
@@ -105,7 +105,7 @@ const Video = ({ video }) => {
       checkToggle(toggleDislike, setToggleDislike);
     }
 
-    const favorited = toggleDislike ? 1 : 0;
+    const favorited = await toggleDislike ? 1 : 0;
     const response = await runRatingService(favorited);
     console.log('data', await response.json());
   }
