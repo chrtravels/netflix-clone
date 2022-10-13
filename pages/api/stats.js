@@ -11,20 +11,30 @@ export default async function stats(req, res,) {
       const { videoId } = req.method === "POST" ? req.body : req.query
 
       if (videoId) {
-        const userId = verifyToken(token);
+        const userId = await verifyToken(token);
         const findVideo = await findVideoIdByUser(token, userId, videoId);
         const doesStatsExist = findVideo?.length > 0;
-
+        console.log({videoId})
         if (req.method === "POST") {
           const { favorited, watched = true } = req.body
 
           if (doesStatsExist) {
             // update it
-            const response = await updateStats(token, { userId, videoId, favorited, watched })
+            const response = await updateStats(token, {
+              watched,
+              userId,
+              videoId,
+              favorited,
+            })
             res.send({ data: response });
           } else {
             // add it
-            const response = await insertStats(token, { userId, videoId, favorited, watched })
+            const response = await insertStats(token, {
+              watched,
+              userId,
+              videoId,
+              favorited,
+            })
             res.send({ data: response });
           }
         } else {

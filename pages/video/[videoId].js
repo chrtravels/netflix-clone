@@ -70,6 +70,7 @@ const Video = ({ video }) => {
   const checkToggle = (toggle, setToggle) => {
     toggle ? setToggle(false) : setToggle(true);
   }
+
   const runRatingService = async (favorited) => {
     return await fetch('/api/stats', {
       method: 'POST',
@@ -92,7 +93,7 @@ const Video = ({ video }) => {
     } else {
       checkToggle(toggleLike, setToggleLike);
     }
-    const favorited = await toggleLike ? 0 : 1;
+    const favorited = toggleLike ? 0 : 1;
     const response = await runRatingService(favorited);
     console.log('data', await response.json());
   }
@@ -105,7 +106,7 @@ const Video = ({ video }) => {
       checkToggle(toggleDislike, setToggleDislike);
     }
 
-    const favorited = await toggleDislike ? 1 : 0;
+    const favorited = toggleDislike ? 1 : 0;
     const response = await runRatingService(favorited);
     console.log('data', await response.json());
   }
