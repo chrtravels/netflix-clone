@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { magic } from '../../lib/magic-client';
 
@@ -11,6 +11,7 @@ const NavBar = () => {
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [username, setUsername] = useState('');
+  const [didToken, setDidToken] = useState('');
 
   const router = useRouter();
 
@@ -48,9 +49,15 @@ const NavBar = () => {
   const handleSignout = async (e) => {
     e.preventDefault();
     try {
-      await magic.user.logout();
-      console.log(await magic.user.isLoggedIn()); // => `false`
-      router.push('/login');
+      const response = await fetch("/api/logout", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${didToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const res = await response.json();
     } catch (error) {
       console.error('Error Logging out', error);
       router.push('/login');
@@ -60,12 +67,12 @@ const NavBar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Link href="/">
-          <a className={styles.logoLink}>
+        <Link className={styles.logoLink} href="/">
+          <a>
             <div className={styles.logoWrapper}>
               <Image
-                alt="netflix logo"
                 src="/static/netflix.svg"
+                alt="Netflix logo"
                 width="128px"
                 height="34px"
               />
@@ -82,9 +89,10 @@ const NavBar = () => {
           <div>
             <button className={styles.usernameBtn} onClick={handleShowDropdown}>
               <p styles={styles.username}>{username}</p>
+               {/** Expand more icon */}
               <Image
-                alt="expand dropdown icon"
                 src="/static/icons/expand_more.svg"
+                alt="Expand dropdown"
                 width="24px"
                 height="24px"
               />
