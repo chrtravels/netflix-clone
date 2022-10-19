@@ -17,7 +17,7 @@ Modal.setAppElement('#__next');
 export async function getStaticProps(context) {
   const videoId = context.params.videoId;
   const videoArray = await getYoutubeVideoById(videoId);
-  console.log(await getYoutubeVideoById('q25hRul0rMc'))
+
   return {
     props: {
       video: videoArray.length > 0 ? videoArray[0] : {}
@@ -101,7 +101,6 @@ const Video = ({ video }) => {
     }
     const favorited = toggleLike ? 0 : 1;
     const response = await runRatingService(favorited);
-    console.log('data', await response.json());
   }
 
   const handleToggleDislike = async () => {
@@ -114,7 +113,6 @@ const Video = ({ video }) => {
 
     const favorited = toggleDislike ? 1 : 0;
     const response = await runRatingService(favorited);
-    console.log('data', await response.json());
   }
 
   return (
