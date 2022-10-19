@@ -17,7 +17,7 @@ Modal.setAppElement('#__next');
 export async function getStaticProps(context) {
   const videoId = context.params.videoId;
   const videoArray = await getYoutubeVideoById(videoId);
-
+  console.log(await getYoutubeVideoById('q25hRul0rMc'))
   return {
     props: {
       video: videoArray.length > 0 ? videoArray[0] : {}
@@ -44,7 +44,13 @@ const Video = ({ video }) => {
   const [toggleLike, setToggleLike] = useState(false);
   const [toggleDislike, setToggleDislike] = useState(false);
 
-  const {title, publishTime, description, channelTitle, statistics: { viewCount } = { viewCount: 0 }} = video;
+  const {
+    title,
+    publishTime,
+    description,
+    channelTitle,
+    statistics: { viewCount } = { viewCount: 0 },
+  } = video;
 
   useEffect(() => {
     const handleDislikeService = async () => {

@@ -14,7 +14,7 @@ export default async function stats(req, res,) {
         const userId = await verifyToken(token);
         const findVideo = await findVideoIdByUser(token, userId, videoId);
         const doesStatsExist = findVideo?.length > 0;
-        console.log({videoId})
+
         if (req.method === "POST") {
           const { favorited, watched = true } = req.body
 
